@@ -2,6 +2,7 @@ from django.test import LiveServerTestCase
 
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
 from selenium import webdriver
 
 
@@ -25,10 +26,10 @@ class LoginFormTest(LiveServerTestCase):
 
         driver.get(('%s%s' % (self.live_server_url, '/accounts/login/')))
 
-        user_name = driver.find_element_by_name('username')
-        user_password = driver.find_element_by_name('password')
+        user_name = driver.find_element(By.NAME, 'username')
+        user_password = driver.find_element(By.NAME, 'password')
 
-        submit = driver.find_element_by_id('submit')
+        submit = driver.find_element(By.ID, 'submit')
 
         user_name.send_keys('admin')
         user_password.send_keys('admin')
