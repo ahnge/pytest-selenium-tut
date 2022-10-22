@@ -1,15 +1,18 @@
 import pytest
 
-from pytest_factoryboy import register
-
-from tests.factories import UserFactory, CategoryFactory, ProductFactory
-
-register(UserFactory)
-register(CategoryFactory)
-register(ProductFactory)
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
 
 
-@pytest.fixture
-def new_user1(db, user_factory):
-    user = user_factory.create()
-    return user
+@pytest.fixture(scope="class")
+def init_chrome_webdriver(request):
+    service = Service(
+        executable_path='/home/nayzaw/Documents/learning-pjs/working/pytest-selenium-tut/chromedriver_linux64/chromedriver')
+    option = Options()
+    option.headless = True
+
+    driver = webdriver.Chrome(service=service, options=option)
+    request.cls.driver = driver
+    yield
+    driver.close()
